@@ -1,0 +1,38 @@
+#perma strict
+/* Function for manipulating an object's mesh according to Perlin Noise Math Function */
+/* Script: Calls Mesh Attributes, Adjusts w/ Noise Function, then Returns New Mesh Values */
+/* This script animation requires a "Mesh Renderer" GameObject Component */
+ 
+    //Use this for initialization
+    void Start () {
+      var scaleX = 1f;
+      var scaleY = 1f;
+   
+      var mesh : Mesh = GetComponent(MeshFilter).mesh; //Get Mesh Filter
+      var vetices : Vector3[] = mesh.vertices; //Create Vector3 variable from mesh.vertices;
+              //Mesh values have been called
+   
+      private Perlin Noise;
+    }
+   
+    //Update is called once per frame
+    void FixedUpdate () {
+      
+        var invertscaleX =1-(scaleX-1);
+        var invertscaleY =1-(scaleY-1); //Declared for Perlin Function.
+        
+        var i;  //Declared for loop traits
+        
+        for (i=0; i<vertices.Length; i++) {
+              //The following is the Perlin Noise Math Function. This alters the called values.
+ 
+        vertices[i].x = vertices[i].x * (Mathf.PerlinNoise(Time.deltaTime+(vertices[i].x*scaleX), Time.deltaTime+(vertices[i].y*scaleY))) - (Mathf.PerlinNoise(Time.deltaTime+(vertices[i].x*invertscaleX), Time.deltaTime+(vertices[i].y*invertscaleY)));
+        
+                }
+ 
+        //Altered mesh values are assigned to original mesh filter.
+        mesh.vertices = vertices;
+        mesh.RecalculateBounds ();
+        mesh.RecalculateNormals ();
+    }
+}
