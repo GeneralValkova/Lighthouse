@@ -1,0 +1,12 @@
+#pragma strict
+
+function Start () {
+  var Score = 0;
+}
+
+function OnCOllisionEnter (col : Collision) {
+    if(col.gameObject.name == "Yacht") {
+      Destroy(col.gameObject);
+      Score++;
+  }
+}
