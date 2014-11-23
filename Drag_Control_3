@@ -1,0 +1,22 @@
+#pragma strict
+
+function Start () {
+
+}
+
+function Update () {
+  var object : GameObject;
+      if(Input.touchCount > 0) {
+          touch : Touch = Input.GetTouch(0)
+          // Check for Touch on Screen.
+
+        if(touch.phase = TouchPhase.Began || touch.phase = TouchPhase.Moved) {
+            touchPosition : Vector3 = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, 0, touch.position.z));
+            // Create Vector from Touch Position, and "ScreenToWorldPoint" Function.
+            transform.position = Vector3.Lerp(transform.position, touchPosition, Time.deltaTime);
+            // Smoothly Translate GameObject according to Last Frame, Touch Position, and Time.
+            transform.LookAt(touchPosition, Vector3.up);
+            // Orient GaemObject according to Touch Posiition.
+        }
+    }
+}
