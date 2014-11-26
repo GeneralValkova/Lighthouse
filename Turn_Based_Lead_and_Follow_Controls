@@ -1,0 +1,89 @@
+#pragma strict
+
+/* Code that allows the player to move a specific game object according to a grid. 
+The player will tap and drag a "ghost" sprite across a predetermined grid and distance.
+Upon release the actual GameObject will move smoothly to the position of the ghost.
+The GameObject moves freely, unbound by the grid.*/
+
+// MOVE LIMITATIONS HAVE NOT YET BEEN SET! //
+
+
+var object : GameObject;
+var ghost : Sprite;
+var moves : float = 3.0;
+var speed : float = 1.0;
+var gridSize : float = 1.0;
+var gridOrientation : Orientation.Horizontal;
+var allowDiagonals = false;
+//var
+enum Orientation {Horizontal, Vertical}
+private var input = Vector2.zero;
+
+
+function Start () {
+  var userTransfrom = transfrom;
+  var startPosition : Vector3;
+  var endPosition : Vector3;
+  var t : float;
+  var tx : float;
+
+    while (true) {
+      while (input == Vector2.zero) {
+          GetAxes();
+          tx = 0.0;
+          yield;
+      }
+      
+      transform.forward = Vector3.Normalize(new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical")));
+      startPosition = userTransfom.position;
+      endPosition - gridOrientation == Orientation.Horizontal?
+          Vector3(Mathf.Round(userTransform.position.x), 0.0, Mathf.Round(userTransform.position.z)) +
+          Vector3(System.Math.Sign(input.x)*gridSize, 0.0 System.Math.Sign(input.y)*gridSize)
+          :
+          Vector3(Mathf.Round(userTransform.position.x), Mathf.Round(userTransform.position.z), 0.0) + 
+          Vector3(System.Math.Sign(input.x)*gridSize, System.Math.Sign(input.y)*gridSize, 0.0);
+      t = tx;
+      
+      while (t < 1.0) {
+          t += Time.deltaTime * (speed/gridSize);
+          userTransfrom.position = Vector3.Lerp(startPosition, endPosition, t);
+          yield;
+      }
+      tx = t - 1.0; 
+      GetAxes();
+  }
+  	
+  	if(touch.phase == TouchPhase.Ended) {
+		
+		if(marker != startPosition) {
+		  
+		object.transform.position = Vector3.Lerp(startPosition, endPosition, t);
+		}
+	}
+}
+
+
+function GetAxes () {
+  
+    for(var touch : Touch in Input.touches){
+
+    if(Input.touchCount > 0) {
+  var ray = Camera.main.ScreenPointToRay(touch.position);
+  var hit : RaycastHit;
+  var plane : Plane = new Plane(Vector3.up, startPosition);
+	var rayDistance : float;
+
+		if (Physics.Raycast (ray, hit, 100)) {
+
+    if(touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Moved) {
+
+		if (plane.Raycast(ray, rayDistance)) {
+				var marker : new Vector3 = ray.GetPoint(rayDistance);
+					
+				input = marker((Input.GetAxis ("Horizontal")),(Input.GetAxis ("Vertical")), 0);
+					}
+				}
+			}
+		}
+	}
+}
