@@ -1,0 +1,28 @@
+#pragma strict
+
+function Start () {
+
+}
+	var speed = 30.0f;
+	var object : GameObject;
+function Update () {
+  	for(var touch : Touch in Input.touches){
+  	
+      if(Input.touchCount > 0) {
+      	var ray = Camera.main.ScreenPointToRay(touch.position); 
+      	var hit : RaycastHit;
+      
+		 if (Physics.Raycast (ray, hit, 100)) {
+		 
+       		 if(touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Moved) {
+        		var plane : Plane = new Plane(Vector3.up, transform.position);
+				var rayDistance : float;
+			
+				if (plane.Raycast(ray, rayDistance)) {
+					object.transform.position = Vector3.MoveTowards(transform.position, ray.GetPoint(rayDistance), Time.deltaTime * speed);
+					}
+				}
+			}
+		}
+	}
+}
