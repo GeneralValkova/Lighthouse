@@ -1,0 +1,38 @@
+#pragma strict
+
+      var markerA : Transform;
+      var markerB : Transform;
+      var simpleMove : Vector3;
+      var startPosition : Vector3;
+      var endPosition : Vector3;
+      var gridSize : float = 1.0;
+      
+function Start () {
+  
+while(true){
+  for (input.GetTouch(0) in touch Touches) {
+    if (touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Moved) {
+      var plane: Plane = new Plane(Vector3.up, transform.position);
+      var ray : Ray = ScreenPointToRay(input.TouchPosition);
+      var rayDistance : float;
+        if (Physics.Raycast (ray, hit, 100)) {
+          if (plane.Raycast(ray, rayDistance)) {
+            markerA.position = ray.GetPoint(ray, rayDistance);
+              if (touch.phase == TouchPhase.Ended) {
+                markerB.position = ray.GetPoint(ray, rayDistance);
+                simpleMove = Vector3.Normalize(new Vector3((markerB.position.x - markerA.position.x), 0f, (markerB.position.z - markerA.position.z)));
+                endPosition = simpleMove * (Vector3(System.Math.Sign(markerB.position.x)*gridSize, 0.0 System.Math.Sign(markerB.position.z)*gridSize));
+                MovePlayer();
+                startPosition = endPosition;
+          }
+        }
+      }
+    }
+  }
+}
+
+function MovePlayer () {
+  
+  object.transform.position = Vector3.Lerp(startPosition, endPosition, Time.deltaTime * speed);
+  
+}
