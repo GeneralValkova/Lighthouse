@@ -1,4 +1,4 @@
 Lighthouse
 ==========
 
-Unity Javascript and C# for Project Lighthouse. ;)
+Unity Javascript and C# for Project Lighthouse.
